@@ -1,0 +1,33 @@
+package Java.TABD_6;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.cassandra.config.CqlSessionFactoryBean;
+import org.springframework.data.cassandra.core.CassandraTemplate;
+import org.springframework.data.cassandra.core.CassandraOperations;
+import org.springframework.data.cassandra.config.AbstractCassandraConfiguration;
+import com.datastax.oss.driver.api.core.CqlSession;
+
+@Configuration
+public class CassandraConfig extends AbstractCassandraConfiguration {
+
+    @Override
+    protected String getKeyspaceName() {
+        return "divas_pop";
+    }
+
+    @Override
+    protected String getContactPoints() {
+        return "127.0.0.1:9042";
+    }
+
+    @Override
+    public CqlSessionFactoryBean cassandraSession() {
+        return super.cassandraSession();
+    }
+
+    @Bean
+    public CassandraOperations cassandraOperations(CqlSession cqlSession) {
+        return new CassandraTemplate(cqlSession);
+    }
+}
